@@ -1,0 +1,227 @@
+<!--
+Files included below in a single document for easy copy/paste into your editor:
+
+1) index.html   -- main HTML file
+2) styles.css   -- external stylesheet (no inline CSS used)
+3) script.js    -- optional small JS (not required by spec but included for accessibility)
+
+INSTRUCTIONS: Create a folder, paste the contents of each section into separate files (index.html, styles.css, script.js)
+Then open index.html in a browser to view the responsive layout. This implementation avoids frameworks and does not use inline CSS.
+-->
+
+<!-- ===================== index.html ===================== -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Assignment 2 — Responsive Sections</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="page-header">
+      <h1>Course Assignment — Responsive Layout</h1>
+      <p class="subtitle">Implementation without frameworks • External CSS only</p>
+    </header>
+
+    <section class="grid">
+      <article class="region region-a">
+        <div class="region-title">A</div>
+        <div class="region-content">
+          <h2>Section A</h2>
+          <p>Dummy text for the A region. This paragraph demonstrates padding and wrapping so it won't overlap the title marker.</p>
+        </div>
+      </article>
+
+      <article class="region region-b">
+        <div class="region-title">B</div>
+        <div class="region-content">
+          <h2>Section B</h2>
+          <p>Dummy text for the B region.</p>
+        </div>
+      </article>
+
+      <article class="region region-c">
+        <div class="region-title">C</div>
+        <div class="region-content">
+          <h2>Section C</h2>
+          <p>Dummy text for the C region.</p>
+        </div>
+      </article>
+
+      <article class="region region-d">
+        <div class="region-title">D</div>
+        <div class="region-content">
+          <h2>Section D</h2>
+          <p>Dummy text for the D region.</p>
+        </div>
+      </article>
+
+      <article class="region region-e">
+        <div class="region-title">E</div>
+        <div class="region-content">
+          <h2>Section E</h2>
+          <p>Dummy text for the E region.</p>
+        </div>
+      </article>
+
+      <article class="region region-f">
+        <div class="region-title">F</div>
+        <div class="region-content">
+          <h2>Section F</h2>
+          <p>Dummy text for the F region.</p>
+        </div>
+      </article>
+
+    </section>
+
+    <footer class="page-footer">Implemented by: Your Name — follow the assignment checks</footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+<!-- ===================== styles.css ===================== -->
+/*
+Key implementation notes:
+- No frameworks used.
+- No inline styles — all CSS is in this external stylesheet.
+- Uses CSS Grid to control layout for desktop/tablet/mobile variants.
+- Section title markers are absolutely positioned inside each region in the top-right corner.
+- Ample padding ensures content never overlaps the title marker.
+- Consistent horizontal & vertical spacing via CSS variables.
+*/
+
+:root{
+  --gap: 20px;            /* spacing between regions */
+  --edge-padding: 24px;   /* spacing between regions and browser edge */
+  --region-padding: 20px; /* internal padding for region content */
+  --title-size: 44px;     /* square marker size */
+  --title-bg: #ffffff;    /* title background */
+  --border-color: #004e89;
+  --region-bg: #f7fbff;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial}
+
+.page{max-width:1200px;margin:0 auto;padding:var(--edge-padding)}
+.page-header{margin-bottom:var(--gap)}
+.page-header h1{margin:0 0 6px}
+.subtitle{margin:0;color:#555}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+
+.region{
+  position:relative; /* for title absolute positioning */
+  background:var(--region-bg);
+  border:6px solid var(--border-color);
+  border-radius:8px;
+  min-height:120px;
+  padding: calc(var(--region-padding) + 0px) ; /* internal padding for content */
+  overflow:hidden;
+}
+
+.region-title{
+  position:absolute;
+  top: -1px; /* allow it to sit slightly overlapping border */
+  right: -1px;
+  width: var(--title-size);
+  height: var(--title-size);
+  line-height: var(--title-size);
+  text-align:center;
+  font-weight:700;
+  border-left:6px solid var(--border-color);
+  border-bottom:6px solid var(--border-color);
+  background:var(--title-bg);
+  border-bottom-left-radius:8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  z-index:5;
+  font-size:18px;
+}
+
+.region-content{
+  /* ensure content doesn't sit beneath the title marker on small regions */
+  padding-top: 8px;
+}
+
+.region h2{margin-top:0;margin-bottom:8px}
+.region p{margin:0}
+
+/* Colors per region to help visual checks (not required, but acceptable) */
+.region-a{--border-color:#d03801;}
+.region-b{--border-color:#0b6e4f}
+.region-c{--border-color:#0066cc}
+.region-d{--border-color:#8b2d91}
+.region-e{--border-color:#b36b00}
+.region-f{--border-color:#2a2a72}
+
+/* Tablet: 2 columns */
+@media (max-width:900px){
+  .grid{grid-template-columns: repeat(2, 1fr);}
+  .page{padding:20px}
+}
+
+/* Mobile: single column */
+@media (max-width:560px){
+  .grid{grid-template-columns: 1fr}
+  .page{padding:16px}
+  :root{--title-size:36px}
+  .region{padding:16px}
+}
+
+/* Accessibility: ensure the title is still visible if region is short */
+.region[aria-hidden="true"] .region-title{display:none}
+
+/* Visual check helpers (uncomment in dev if you want outlines)
+.region{outline: 1px dashed rgba(0,0,0,0.06)}
+*/
+
+
+/* Ensure consistent spacing between page edges and regions on large screens */
+@media (min-width:901px){
+  .page{padding-left:var(--edge-padding);padding-right:var(--edge-padding)}
+}
+
+
+/* Fine-tune spacing so the title marker sits inside the border corner across sizes */
+.region-title{transform: translate(0,0)}
+
+/* Make sure text doesn't overlap the marker: add extra padding to top-right content flow */
+.region-content{padding-right: calc(var(--title-size) / 1.6);}
+
+/* Ensure minimum height on small widths so title doesn't overlap content */
+@media (max-width:420px){
+  .region{min-height:100px}
+}
+
+
+/* Footer */
+.page-footer{margin-top:var(--gap);color:#444;font-size:14px}
+
+
+/* End of styles.css */
+
+
+
+<!-- ===================== script.js ===================== -->
+/* Minimal script — not required by assignment, added for completeness.
+   It adds role and aria-labels so screen readers can quickly navigate the regions. */
+
+(function(){
+  try{
+    const regions = document.querySelectorAll('.region');
+    regions.forEach((r,i)=>{
+      r.setAttribute('role','region');
+      const title = r.querySelector('.region-title')?.textContent || ('Section '+(i+1));
+      r.setAttribute('aria-label', title + ' region');
+    });
+  }catch(e){console.warn(e)}
+})();
